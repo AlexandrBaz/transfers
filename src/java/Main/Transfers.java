@@ -24,9 +24,7 @@ public class Transfers implements Runnable {
         for (int i = 0; i < numberOfTransactions; i++) {
             try {
                 getFromAndToAccountNum();
-            } catch (ClosedConnectionException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
+            } catch (ClosedConnectionException | IllegalAccessException e) {
                 e.printStackTrace();
             }
         }

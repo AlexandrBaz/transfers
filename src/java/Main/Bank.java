@@ -10,7 +10,7 @@ public class Bank {
     private static final Map<String, Account> accounts = new ConcurrentHashMap<>();
     private final Random random = new Random();
 
-    public synchronized boolean isFraud(String fromAccountNum, String toAccountNum, long amount)
+    public synchronized boolean isFraud(String fromAccountNum, String toAccountNum, long amount)// Тут какая-то логика определения фрауда
             throws InterruptedException {
         Thread.sleep(1000);
         return random.nextBoolean();
@@ -25,17 +25,12 @@ public class Bank {
     public void transfer(String fromAccountNum, String toAccountNum, long amount) throws ClosedConnectionException, IllegalAccessException {
         Account from = accounts.get(fromAccountNum);
         Account to = accounts.get(toAccountNum);
-//        System.out.println("------------------------------------------------------");
-//        System.out.println("Пришло значение - " + fromAccountNum + " Key : " + accounts.get(fromAccountNum).getAccNumber() + " balance : " + getBalance(fromAccountNum) + " " + accounts.get(fromAccountNum).getStatus());
-//        System.out.println("Пришо значение - " + toAccountNum + " Key : " + accounts.get(toAccountNum).getAccNumber() + " balance : " + getBalance(toAccountNum) + " " + accounts.get(toAccountNum).getStatus());
         if (from == null || to == null) {
             throw new IllegalAccessException("Некорректный счет");
         }
-        assert from != null;
         if (from.getMoney() < amount) {
             throw new IllegalStateException("Недостаточно средств для перевода");
         }
-        assert to != null;
         if (to.getStatus().equals(AccountStatus.BLOCKED) || from.getStatus().equals(AccountStatus.BLOCKED)) {
             throw new ClosedConnectionException("Счет заблокирован");
         }
@@ -52,8 +47,6 @@ public class Bank {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-//        System.out.println("Новое значение - " + "Номер транзакции " + (cont++) + " "+ fromAccountNum + " Key : " + accounts.get(fromAccountNum).getAccNumber() + " balance : " + getBalance(fromAccountNum) + " " + accounts.get(fromAccountNum).getStatus());
-//        System.out.println("Новое значение - " + toAccountNum + " Key : " + accounts.get(toAccountNum).getAccNumber() + " balance : " + getBalance(toAccountNum) + " " + accounts.get(toAccountNum).getStatus());
     }
 
 
